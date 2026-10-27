@@ -1,0 +1,29 @@
+# Publishes to npm when a vX.Y.Z tag is pushed (`npm version minor && git push
+# --follow-tags`). Uses npm trusted publishing (OIDC): no NPM_TOKEN secret, and
+# the package gets a provenance attestation linking it to this run. Configure the
+# trusted publisher on npmjs.com (package → Settings) after the first, manual
+# `npm publish --access public`.
+name: Publish
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          cache: npm
+      - name: Tag matches package.json
+        run: test "v$(node -p 'require("./package.json").version')" = "$GITHUB_REF_NAME"
+      - run: npm ci
+      - run: npm publish --access public

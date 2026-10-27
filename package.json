@@ -1,0 +1,71 @@
+{
+  "name": "@ebalzan/config",
+  "version": "0.1.0",
+  "description": "Shared Prettier, ESLint, TypeScript and commit-message rules. Each repo extends them and adds only what is its own.",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ebalzan/config.git"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "files": [
+    "bin",
+    "commit",
+    "eslint",
+    "lib",
+    "prettier",
+    "tsconfig"
+  ],
+  "exports": {
+    "./prettier": "./prettier/index.js",
+    "./eslint/base": {
+      "types": "./eslint/base.d.ts",
+      "default": "./eslint/base.js"
+    },
+    "./eslint/node": {
+      "types": "./eslint/node.d.ts",
+      "default": "./eslint/node.js"
+    },
+    "./eslint/markdown": {
+      "types": "./eslint/markdown.d.ts",
+      "default": "./eslint/markdown.js"
+    },
+    "./tsconfig/base.json": "./tsconfig/base.json",
+    "./tsconfig/node.json": "./tsconfig/node.json",
+    "./commit": "./commit/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "ebalzan-config": "bin/ebalzan-config.js"
+  },
+  "scripts": {
+    "lint": "eslint --max-warnings 0 .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "node --test",
+    "check": "npm run lint && npm run format:check && npm test",
+    "prepublishOnly": "npm run check"
+  },
+  "prettier": "@ebalzan/config/prettier",
+  "dependencies": {
+    "@eslint/js": "10.0.1",
+    "@eslint/markdown": "8.0.1",
+    "eslint-config-prettier": "10.1.8",
+    "globals": "17.6.0",
+    "typescript-eslint": "8.59.2"
+  },
+  "peerDependencies": {
+    "eslint": "^10.0.0",
+    "prettier": "^3.0.0",
+    "typescript": ">=5.0.0 <6.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "25.6.2",
+    "eslint": "10.3.0",
+    "prettier": "3.8.3",
+    "typescript": "6.0.3"
+  }
+}
