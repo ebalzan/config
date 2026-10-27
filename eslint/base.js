@@ -7,6 +7,7 @@ export const CODE_FILES = ['**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx}']
 // What every repo lints the same way: the recommended JS and TypeScript rules,
 // on code files only, so a preset that lints another language (markdown.js)
 // does not get JS rules run over it.
+/** @type {import('eslint').Linter.Config[]} */
 export default [
   {
     name: 'ebalzan/ignores',
@@ -23,7 +24,7 @@ export default [
     ],
   },
   { ...js.configs.recommended, name: 'ebalzan/js', files: CODE_FILES },
-  ...tseslint.configs.recommended.map(config => ({
+  ...tseslint.configs.recommended.map((/** @type {import('eslint').Linter.Config} */ config) => ({
     ...config,
     files: config.files ?? CODE_FILES,
   })),

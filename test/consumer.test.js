@@ -9,10 +9,15 @@ import { after, before, test } from 'node:test'
 import { verify } from '../lib/verify.js'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
-const tool = name => path.join(ROOT, 'node_modules/.bin', name)
+const tool = (/** @type {string} */ name) => path.join(ROOT, 'node_modules/.bin', name)
 
+/** @type {string} */
 let dir
 
+/**
+ * @param {string} name
+ * @param {string | object} content
+ */
 function write(name, content) {
   mkdirSync(path.dirname(path.join(dir, name)), { recursive: true })
   writeFileSync(
@@ -21,6 +26,10 @@ function write(name, content) {
   )
 }
 
+/**
+ * @param {string} bin
+ * @param {string[]} args
+ */
 function run(bin, ...args) {
   return spawnSync(tool(bin), args, { cwd: dir, encoding: 'utf8' })
 }

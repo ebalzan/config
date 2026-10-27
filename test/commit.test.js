@@ -8,6 +8,7 @@ import { checkSubject, isExemptSubject } from '../commit/index.js'
 
 const BIN = new URL('../bin/ebalzan-config.js', import.meta.url).pathname
 
+/** @param {string[]} args */
 function cli(...args) {
   return spawnSync(process.execPath, [BIN, ...args], { encoding: 'utf8' })
 }
@@ -25,12 +26,12 @@ test('accepts Conventional Commit subjects', () => {
 
 test('rejects anything else', () => {
   for (const subject of ['', 'add filters', 'feature: add filters', 'feat:no space', 'feat(): x']) {
-    assert.match(checkSubject(subject), /^Invalid commit message/, subject)
+    assert.match(checkSubject(subject) ?? '', /^Invalid commit message/, subject)
   }
 })
 
 test('labels the message', () => {
-  assert.match(checkSubject('nope', 'PR title'), /^Invalid PR title: "nope"/)
+  assert.match(checkSubject('nope', 'PR title') ?? '', /^Invalid PR title: "nope"/)
 })
 
 test('exempts subjects git writes', () => {

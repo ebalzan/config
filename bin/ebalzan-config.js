@@ -9,12 +9,17 @@ const USAGE = `Usage:
   ebalzan-config check-subject <subject> [label] check one subject line (PR titles)
   ebalzan-config verify [dir]                   check a repo extends this package (default: .)`
 
+/**
+ * @param {string | null} problem
+ * @returns {number}
+ */
 function report(problem) {
   if (!problem) return 0
   console.error(problem)
   return 1
 }
 
+/** @type {Record<string, (...args: string[]) => number | Promise<number>>} */
 const commands = {
   'commit-msg'(file) {
     if (!file) return report(USAGE)

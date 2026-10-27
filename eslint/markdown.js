@@ -4,6 +4,7 @@ import markdown from '@eslint/markdown'
 // The docs use task lists and tables, and under CommonMark a `- [x]` item
 // parses as a link reference, so every checklist entry reports a phantom
 // "Label reference not found".
+/** @type {import('eslint').Linter.Config[]} */
 export default markdown.configs.recommended.map(config => ({
   ...config,
   name: 'ebalzan/markdown',

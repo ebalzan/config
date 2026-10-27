@@ -22,15 +22,21 @@ export const SUBJECT_PATTERN = new RegExp(`^(${COMMIT_TYPES.join('|')})(\\([^)]+
 // the PR title, which is checked.
 const EXEMPT_PREFIXES = ['Merge ', 'Revert ', 'fixup! ', 'squash! ']
 
+/** @param {string} subject */
 export function isExemptSubject(subject) {
   return EXEMPT_PREFIXES.some(prefix => subject.startsWith(prefix))
 }
 
+/** @param {string} subject */
 export function isConventionalSubject(subject) {
   return SUBJECT_PATTERN.test(subject)
 }
 
 // Returns null when the subject is valid, else the message to print.
+/**
+ * @param {string} subject
+ * @returns {string | null}
+ */
 export function checkSubject(subject, label = 'commit message') {
   if (isConventionalSubject(subject)) return null
   const head = subject ? `Invalid ${label}: "${subject}"` : `Invalid ${label}: value is empty.`
