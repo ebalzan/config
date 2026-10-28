@@ -1,6 +1,6 @@
 # @ebalzan/config
 
-The Prettier, ESLint, TypeScript and commit-message rules shared by my
+The Prettier, ESLint and TypeScript rules shared by my
 repos. Every repo **extends** them and adds only what is its own.
 Nothing here is copied into a repo: change a rule here, release, and each repo
 picks it up through its Renovate PR.
@@ -21,8 +21,7 @@ repo does not list them.
 | `@ebalzan/config/eslint/markdown`    | opt-in: recommended Markdown rules under GFM                     |
 | `@ebalzan/config/tsconfig/base.json` | strict compiler options, no target or module                     |
 | `@ebalzan/config/tsconfig/node.json` | `base.json` + ES2022 / NodeNext / `@types/node`                  |
-| `@ebalzan/config/commit`             | the Conventional Commits types and checker, as a module          |
-| `ebalzan-config` (bin)               | `commit-msg`, `check-subject`, `verify`                          |
+| `ebalzan-config verify` (bin)        | checks a repo extends all of the above instead of copying it     |
 
 ## Prettier
 
@@ -74,19 +73,16 @@ shared file they would point inside `node_modules`.
 
 ## Commit messages
 
-`.husky/commit-msg`:
+Not here: the commit and PR-title rule belongs to the pipeline that enforces it,
+[`@ebalzan/ci`](https://github.com/ebalzan/ci) — the PR title becomes the squash
+commit that decides the release bump, so the rule lives next to the bump logic.
+A repo's `.husky/commit-msg` runs `ebalzan-ci commit-msg "$1"` from that package
+(`ebalzan-ci onboard` writes it).
 
-```sh
-npx --no-install ebalzan-config commit-msg "$1"
-```
-
-It checks the first line against Conventional Commits (`feat`, `fix`, `docs`,
-`style`, `refact`, `perf`, `test`, `build`, `ci`, `chore`, `revert`) and lets
-`Merge`, `Revert`, `fixup!` and `squash!` subjects through. For a PR title in CI:
-
-```sh
-npx --no-install ebalzan-config check-subject "$TITLE" "PR title"
-```
+| Package           | Owns                                                                       |
+| ----------------- | -------------------------------------------------------------------------- |
+| `@ebalzan/config` | how code is written: Prettier, ESLint, TypeScript                          |
+| `@ebalzan/ci`     | how code is shipped: commit/PR-title rule, workflows, releases, repo rules |
 
 ## Checking that a repo extends everything
 
@@ -96,8 +92,8 @@ npx --no-install ebalzan-config verify
 
 It fails when the package is not a dependency, a static `.prettierrc*` or a
 legacy `.eslintrc*` holds its own copy of the rules, `eslint.config.*` imports no
-preset, a `tsconfig*.json` does not reach `@ebalzan/config/tsconfig/*` through
-its `extends` chain, or `.husky/commit-msg` does not run the checker. A repo with
+preset, or a `tsconfig*.json` does not reach `@ebalzan/config/tsconfig/*`
+through its `extends` chain. A repo with
 no `tsconfig*.json` skips the TypeScript check. Run it in each repo's PR checks.
 
 ## Releasing

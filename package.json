@@ -1,7 +1,7 @@
 {
   "name": "@ebalzan/config",
   "version": "0.1.0",
-  "description": "Shared Prettier, ESLint, TypeScript and commit-message rules. Each repo extends them and adds only what is its own.",
+  "description": "Shared Prettier, ESLint and TypeScript rules. Each repo extends them and adds only what is its own.",
   "license": "MIT",
   "type": "module",
   "repository": {
@@ -13,7 +13,6 @@
   },
   "files": [
     "bin",
-    "commit",
     "eslint",
     "lib",
     "prettier",
@@ -35,7 +34,6 @@
     },
     "./tsconfig/base.json": "./tsconfig/base.json",
     "./tsconfig/node.json": "./tsconfig/node.json",
-    "./commit": "./commit/index.js",
     "./package.json": "./package.json"
   },
   "bin": {
