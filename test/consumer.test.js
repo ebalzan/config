@@ -54,7 +54,6 @@ before(() => {
     include: ['src/**/*.ts'],
   })
   write('tsconfig.build.json', '{\n  // comments are fine\n  "extends": "./tsconfig.json",\n}\n')
-  write('.husky/commit-msg', 'npx --no-install ebalzan-config commit-msg "$1"\n')
   write('src/index.ts', 'export const greeting = "hi";\n')
 })
 
