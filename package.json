@@ -1,6 +1,6 @@
 {
   "name": "@ebalzan/config",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Shared Prettier, ESLint and TypeScript rules. Each repo extends them and adds only what is its own.",
   "license": "MIT",
   "type": "module",
